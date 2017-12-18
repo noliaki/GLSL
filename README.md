@@ -1,4 +1,4 @@
-# template-single-page
+# GLSL
 
 [![Build Status](https://travis-ci.org/noliaki/template-single-page.svg?branch=master)](https://travis-ci.org/noliaki/template-single-page)
 

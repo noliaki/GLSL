@@ -10,7 +10,7 @@
   pointer-events none
 
 html
-  overflow-y: scroll
+  // overflow-y: scroll
   text-size-adjust: 100%
   font-size: $size-font-base
 
@@ -36,31 +36,5 @@ body
 // =============================================
 //  anchor color
 // =============================================
-a
-  color: $color-link
-
-  &:link
-    color: $color-link
-
-
-  &:visited
-    color: $color-link-visited
-
-
-  &:hover
-    color: $color-link-hover
-
-    & img
-      opacity: $opacity-hover-img
-
-  &:active
-    color: $color-link-active
-
-
-// =============================================
-//  img style
-// =============================================
-img
-  max-width: 100%
-  vertical-align: bottom
-  z-index header
+canvas
+  display: block

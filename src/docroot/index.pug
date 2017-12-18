@@ -8,13 +8,13 @@ extends /layouts/default
 //-
 append variables
   -
-    const TITLE       = 'AWESOME TITLE'
-    const DESCRIPTION = 'AWESOME DESCRIPTION'
+    const TITLE       = 'GLSL'
+    const DESCRIPTION = 'GLSL'
 
 //- ------------------------------------
 //- style this page
 //-
-block style
+//- block style
   //- example
   //- link(rel="stylesheet", href="css/style.css")
 
@@ -30,7 +30,8 @@ block scripts
 //- content this page
 //-
 block content
-  h1
-    = domain
-    br
-    = URL
+  canvas#canvas
+  script#vs(type='x-shader/x-vertex')
+    include /vertex-shader.vs
+  script#fs(type='x-shader/x-fragment')
+    include /fragment-shader.fs
