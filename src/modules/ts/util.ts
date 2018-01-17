@@ -12,36 +12,10 @@ export const debounde: Function = (fn: Function, interval: number): Function => 
   }
 }
 
-export function createShader (gl: WebGLRenderingContext, id: string): WebGLShader {
+export function createShader (gl: WebGLRenderingContext, glShader: number, source: string): WebGLShader {
   // シェーダを格納する変数
-  let shader: WebGLShader
-
-  // HTMLからscriptタグへの参照を取得
-  const scriptElement: HTMLScriptElement = document.getElementById(id) as HTMLScriptElement
-
-  // scriptタグが存在しない場合は抜ける
-  if (!scriptElement) return
-
-  // scriptタグのtype属性をチェック
-  switch (scriptElement.type) {
-    // 頂点シェーダの場合
-    case 'x-shader/x-vertex':
-      shader = gl.createShader(gl.VERTEX_SHADER)
-      break
-
-    // フラグメントシェーダの場合
-    case 'x-shader/x-fragment':
-      shader = gl.createShader(gl.FRAGMENT_SHADER)
-      break
-
-    default:
-      return
-  }
-
-  // 生成されたシェーダにソースを割り当てる
-  gl.shaderSource(shader, scriptElement.textContent)
-
-  // シェーダをコンパイルする
+  let shader: WebGLShader = gl.createShader(glShader)
+  gl.shaderSource(shader, source)
   gl.compileShader(shader)
 
   // シェーダが正しくコンパイルされたかチェック
@@ -79,7 +53,8 @@ export function createVbo (gl: WebGLRenderingContext, data: number[]): WebGLBuff
   gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
 
   // バッファにデータをセット
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW)
+  console.log(new Float32Array(data))
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW)
 
   // バッファのバインドを無効化
   gl.bindBuffer(gl.ARRAY_BUFFER, null)
