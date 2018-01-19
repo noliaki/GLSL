@@ -7,8 +7,8 @@ import {
   createVbo
 } from './util'
 
-import vsSource from './vertex-shader'
-import fsSource from './fragment-shader'
+import vsSource from './vertex-shader.vs'
+import fsSource from './fragment-shader.fs'
 
 const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement
 const gl: WebGLRenderingContext = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')

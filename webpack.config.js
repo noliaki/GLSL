@@ -38,6 +38,11 @@ const config = {
         test: /\.ts$/,
         loader: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.(vs|fs)$/,
+        loader: 'raw-loader',
+        exclude: /node_modules/
       }
     ]
   },
