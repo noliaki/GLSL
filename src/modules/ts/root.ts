@@ -1,10 +1,11 @@
-declare const matIV: any
+import matIV from './minMatrix'
 
 import {
   debounde,
   createShader,
   createProgram,
-  createVbo
+  createVbo,
+  bindVBO
 } from './util'
 
 import vsSource from './vertex-shader.vs'
@@ -21,26 +22,53 @@ const fShader: WebGLShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource)
 
 const program: WebGLProgram = createProgram(gl, vShader, fShader)
 
-const attrLocation: number = gl.getAttribLocation(program, 'position')
-
-const arrtStride: number = 3
-
 const vertexPosition: number[] = [
   0.0, 1.0, 0.0,
-  1.0, 0.0, 0.0,
-  -1.0, 0.0, 0.0
+  1.0, 0.5, 0.0,
+  -1.0, 0.0, 0.0,
+  1.0, 1.0, 0.0,
+  1.1, 0.0, 0.0,
+  0.0, 1.3, 0.0,
+  2.0, 2.0, 0.0,
+  2.1, 0.0, 0.0,
+  0.0, 2.3, 0.0
 ]
 
-const vbo: WebGLBuffer = createVbo(gl, vertexPosition)
+const vertexColor: number[] = [
+  1.0, 0.0, 0.0, 1.0,
+  0.0, 1.0, 0.0, 1.0,
+  0.0, 0.0, 1.0, 1.0,
+  1.0, 0.2, 0.0, 1.0,
+  0.0, 1.0, 0.0, 1.0,
+  0.0, 0.0, 1.0, 1.0,
+  1.0, 0.0, 0.0, 1.0,
+  0.0, 1.0, 0.0, 1.0,
+  0.0, 0.0, 1.0, 1.0
+]
 
-// VBOをバインド
-gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
+bindVBO(gl, program, 'position', 3, vertexPosition)
+bindVBO(gl, program, 'color', 4, vertexColor)
 
-// attribute属性を有効にする
-gl.enableVertexAttribArray(attrLocation)
+// const positionLocation: number = gl.getAttribLocation(program, 'position')
+// const colorLocation: number = gl.getAttribLocation(program, 'color')
 
-// attribute属性を登録
-gl.vertexAttribPointer(attrLocation, arrtStride, gl.FLOAT, false, 0, 0)
+// const positionStride: number = 3
+// const colorStride: number = 4
+
+// const vbo: WebGLBuffer = createVbo(gl, vertexPosition)
+// const colorVbo: WebGLBuffer = createVbo(gl, vertexColor)
+
+// // VBOをバインド
+// gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
+// gl.bindBuffer(gl.ARRAY_BUFFER, colorVbo)
+
+// // attribute属性を有効にする
+// gl.enableVertexAttribArray(positionLocation)
+// gl.enableVertexAttribArray(colorLocation)
+
+// // attribute属性を登録
+// gl.vertexAttribPointer(positionLocation, positionStride, gl.FLOAT, false, 0, 0)
+// gl.vertexAttribPointer(colorLocation, colorStride, gl.FLOAT, false, 0, 0)
 
 // minMatrix.js を用いた行列関連処理
 // matIVオブジェクトを生成
@@ -52,13 +80,11 @@ const vMatrix = m.identity(m.create())
 const pMatrix = m.identity(m.create())
 const mvpMatrix = m.identity(m.create())
 
-console.log(mvpMatrix)
+m.lookAt([0.0, 0.0, 2.0], [0, 0, 0], [0, 1, 0], vMatrix)
+m.perspective(90, window.innerWidth / window.innerHeight, 0.1, 100, pMatrix)
 
-// m.lookAt([0.0, 0.0, 1.0], [0, 0, 0], [0, 1, 0], vMatrix)
-// m.perspective(90, window.innerWidth / window.innerHeight, 0.1, 100, pMatrix)
-
-// m.multiply(pMatrix, vMatrix, mvpMatrix)
-// m.multiply(mvpMatrix, mMatrix, mvpMatrix)
+m.multiply(pMatrix, vMatrix, mvpMatrix)
+m.multiply(mvpMatrix, mMatrix, mvpMatrix)
 
 const uniLocation: WebGLUniformLocation = gl.getUniformLocation(program, 'mvpMatrix')
 
@@ -66,7 +92,7 @@ const uniLocation: WebGLUniformLocation = gl.getUniformLocation(program, 'mvpMat
 gl.uniformMatrix4fv(uniLocation, false, mvpMatrix)
 
 // モデルの描画
-gl.drawArrays(gl.TRIANGLES, 0, 3)
+gl.drawArrays(gl.TRIANGLES, 0, 9)
 
 // コンテキストの再描画
 gl.flush()

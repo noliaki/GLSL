@@ -53,7 +53,6 @@ export function createVbo (gl: WebGLRenderingContext, data: number[]): WebGLBuff
   gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
 
   // バッファにデータをセット
-  console.log(new Float32Array(data))
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW)
 
   // バッファのバインドを無効化
@@ -63,3 +62,11 @@ export function createVbo (gl: WebGLRenderingContext, data: number[]): WebGLBuff
   return vbo
 }
 
+export function bindVBO (gl: WebGLRenderingContext, program: WebGLProgram, variableName: string, stride: number, data: number[]): void {
+  const location: number = gl.getAttribLocation(program, variableName)
+  const vbo: WebGLBuffer = createVbo(gl, data)
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
+  gl.enableVertexAttribArray(location)
+  gl.vertexAttribPointer(location, stride, gl.FLOAT, false, 0, 0)
+}
