@@ -8,5 +8,6 @@ export default new ShaderMaterial({
   },
   side: DoubleSide,
   vertexShader,
-  fragmentShader
+  fragmentShader,
+  lights: false
 })
