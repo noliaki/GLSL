@@ -1,5 +1,5 @@
 import { ShaderMaterial, DoubleSide } from 'three'
-import vertexShader from './glsl/vertex-shader.glsl'
+import vertexShader from './vertex-shader'
 import fragmentShader from './glsl/fragment-shader.glsl'
 
 export default new ShaderMaterial({
